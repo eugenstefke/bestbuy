@@ -1,3 +1,4 @@
+import store
 class Product:
 
     def __init__(self, product_name, product_price, quantity_of_product):
@@ -32,7 +33,8 @@ class Product:
         return self.product_status
 
     def show(self):
-        print(f"{self.product_name}, Price: {self.product_price}, Quantity: {self.quantity_of_product}")
+        print(f"{self.product_name}, Price: ${self.product_price}, Quantity: {self.quantity_of_product}")
+
 
     def buy(self, quantity):
 

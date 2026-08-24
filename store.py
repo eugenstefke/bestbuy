@@ -1,10 +1,6 @@
-import products
-from products import Product
-
-
 class Store:
 
-    product_list=[]
+    product_list = []
 
     def __init__(self, products):
         self.product_list = products
@@ -19,6 +15,7 @@ class Store:
         quantity_counter = 0
         for product in self.product_list:
             quantity_counter += product.get_quantity()
+        print(f"Total of {quantity_counter} items in store")
         return quantity_counter
 
     def get_all_products(self):
@@ -33,12 +30,12 @@ class Store:
             total += result
         return f"Order cost: {total} dollars."
 
-product_list = [products.Product("MacBook Air M2", 1450, 100),
-                products.Product("Bose QuietComfort Earbuds", 250, 500),
-                products.Product("Google Pixel 7", 500, 250),
-                    ]
-
-best_buy = Store(product_list)
-products = best_buy.get_all_products()
-print(best_buy.get_total_quantity())
-print(best_buy.order([(products[0], 1), (products[1], 2)]))
+# product_list = [products.Product("MacBook Air M2", 1450, 100),
+#                 products.Product("Bose QuietComfort Earbuds", 250, 500),
+#                 products.Product("Google Pixel 7", 500, 250),
+#                     ]
+#
+# best_buy = Store(product_list)
+# products = best_buy.get_all_products()
+# print(best_buy.get_total_quantity())
+# print(best_buy.order([(products[0], 1), (products[1], 2)]))
