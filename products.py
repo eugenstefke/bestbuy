@@ -36,34 +36,38 @@ class Product:
 
     def buy(self, quantity):
 
-        if quantity > 0:
-            if not self.product_status:
-                return "The product is sold out"
+        if quantity <= 0:
+            print("You cannot buy a negative quantity")
+            return 0
 
-            if self.get_quantity() >= quantity:
-                self.quantity_of_product -= quantity
-                if self.get_quantity() == 0:
-                    self.deactivate()
-                return (f"The total price for the product is {self.product_price * quantity}")
-            else:
-                return(f"I don´t have that many.  I’ve got {self.quantity_of_product} of them")
-        else: return "You cannot buy a negative quantity"
+        if not self.product_status:
+            print("The product is sold out")
+            return 0
+
+        if self.get_quantity() < quantity:
+            print(f"I don't have that many. I've got {self.quantity_of_product} of them")
+            return 0
+
+        self.quantity_of_product -= quantity
+        if self.get_quantity() == 0:
+            self.deactivate()
+        return self.product_price * quantity
 
 
 
-bose = Product("Bose QuietComfort Earbuds", 250, 500)
-mac = Product("MacBook Air M2", 1450, 100)
-
-print(bose.buy(50))
-# print(mac.buy(100))
-# print(mac.is_active())
-
-bose.show()
-# mac.show()
-print(bose.buy(50))
-bose.set_quantity(-1)
-
-bose.show()
-print(bose.buy(-1))
-bose.show()
+# bose = Product("Bose QuietComfort Earbuds", 250, 500)
+# mac = Product("MacBook Air M2", 1450, 100)
+#
+# print(bose.buy(50))
+# # print(mac.buy(100))
+# # print(mac.is_active())
+#
+# bose.show()
+# # mac.show()
+# print(bose.buy(50))
+# bose.set_quantity(-1)
+#
+# bose.show()
+# print(bose.buy(-1))
+# bose.show()
 
