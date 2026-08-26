@@ -1,6 +1,7 @@
-class Store:
+from products import Product
 
-    product_list = []
+
+class Store:
 
     def __init__(self, products):
         self.product_list = products
@@ -12,23 +13,17 @@ class Store:
         self.product_list.remove(product)
 
     def get_total_quantity(self):
-        quantity_counter = 0
-        for product in self.product_list:
-            quantity_counter += product.get_quantity()
-        print(f"Total of {quantity_counter} items in store")
-        return quantity_counter
+        return sum(product.get_quantity() for product in self.product_list)
 
     def get_all_products(self):
-        for product in self.product_list:
-            product.show()
-        return self.product_list
+        return [product for product in self.product_list if product.is_active()]
 
     def order(self, shopping_list):
         total = 0
         for product, quantity in shopping_list:
             result = product.buy(quantity)
             total += result
-        return f"Order cost: {total} dollars."
+        return total
 
 # product_list = [products.Product("MacBook Air M2", 1450, 100),
 #                 products.Product("Bose QuietComfort Earbuds", 250, 500),

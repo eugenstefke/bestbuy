@@ -1,7 +1,13 @@
-import store
 class Product:
 
     def __init__(self, product_name, product_price, quantity_of_product):
+        if not product_name:
+            raise ValueError("Product name cannot be empty")
+        if product_price < 0:
+            raise ValueError("Price cannot be negative")
+        if quantity_of_product < 0:
+            raise ValueError("Quantity cannot be negative")
+
         self.product_name = product_name
         self.product_price = product_price
         self.quantity_of_product = quantity_of_product
@@ -12,14 +18,14 @@ class Product:
 
     def set_quantity(self, quantity):
 
-        if quantity > 0:
-            if not self.product_status:
-                self.activate()
-                self.quantity_of_product += quantity
-
-            self.quantity_of_product += quantity
-        else:
-            print("You cannot add a negative quantity")
+        if quantity < 0:
+            print("Quantity must not be negative")
+            return
+        self.quantity_of_product = quantity
+        if self.quantity_of_product == 0:
+            self.deactivate()
+        elif not self.product_status:
+            self.activate()
 
     def is_active(self):
          return self.product_status
@@ -38,36 +44,31 @@ class Product:
 
     def buy(self, quantity):
 
+        if not isinstance(quantity, int):
+            raise TypeError("Quantity must be an integer")
         if quantity <= 0:
-            print("You cannot buy a negative quantity")
-            return 0
-
+            raise ValueError("You cannot buy a negative or zero quantity")
         if not self.product_status:
-            print("The product is sold out")
-            return 0
-
+            raise Exception(f"{self.product_name} is sold out")
         if self.get_quantity() < quantity:
-            print(f"I don't have that many. I've got {self.quantity_of_product} of them")
-            return 0
+            raise ValueError(f"I don't have that many. I've got {self.quantity_of_product} of them")
 
         self.quantity_of_product -= quantity
         if self.get_quantity() == 0:
             self.deactivate()
         return self.product_price * quantity
 
-
-
 # bose = Product("Bose QuietComfort Earbuds", 250, 500)
 # mac = Product("MacBook Air M2", 1450, 100)
 #
-# print(bose.buy(50))
-# # print(mac.buy(100))
-# # print(mac.is_active())
-#
+# print(bose.buy("h"))
+# print(mac.buy(100))
+# print(mac.is_active())
+
 # bose.show()
-# # mac.show()
-# print(bose.buy(50))
-# bose.set_quantity(-1)
+# mac.show()
+# print(bose.buy())
+# bose.set_quantity(1)
 #
 # bose.show()
 # print(bose.buy(-1))
