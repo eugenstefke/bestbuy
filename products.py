@@ -1,6 +1,21 @@
 class Product:
+    """
+    Represents a product type available in the store (e.g. MacBook Air M2).
+    Encapsulates a product's name, price, stock quantity, and active status,
+    and provides methods for purchasing and managing quantity.
+    """
 
     def __init__(self, product_name, product_price, quantity_of_product):
+        """
+        Creates a new product instance.
+        Args:
+        product_name (str): Name of the product. Must not be empty.
+        product_price (float): Price of the product. Must not be negative.
+        quantity_of_product (int): Initial stock quantity. Must not be negative.
+
+        Raises: ValueError: If the name is empty or price/quantity is negative.
+        """
+
         if not product_name:
             raise ValueError("Product name cannot be empty")
         if product_price < 0:
@@ -14,13 +29,25 @@ class Product:
         self.product_status = True
 
     def get_quantity(self):
+        """
+        Returns the current stock quantity of the product.
+        Returns: int: The currently available quantity.
+        """
         return self.quantity_of_product
 
     def set_quantity(self, quantity):
+        """
+        Sets the product's stock quantity to a new value.
 
+        Automatically deactivates the product if the new quantity is 0,
+        and reactivates it if it was previously inactive and the new
+        quantity is greater than 0.
+
+        Args: quantity (int): The new quantity. Must be >= 0.
+        Raises: ValueError: If quantity is negative.
+        """
         if quantity < 0:
-            print("Quantity must not be negative")
-            return
+            raise ValueError("Quantity cannot be negative")
         self.quantity_of_product = quantity
         if self.quantity_of_product == 0:
             self.deactivate()
@@ -28,21 +55,43 @@ class Product:
             self.activate()
 
     def is_active(self):
-         return self.product_status
+        """
+        Checks whether the product is active (purchasable).
+        Returns: True if the product is active, False otherwise.
+        """
+        return self.product_status
 
     def activate(self):
+        """Activates the product so it can be purchased again."""
         self.product_status = True
-        return self.product_status
 
     def deactivate(self):
+        """Deactivates the product so it can no longer be purchased."""
         self.product_status = False
-        return self.product_status
 
     def show(self):
+        """
+        Prints a human-readable representation of the product to the console.
+        Format: "<name>, Price: $<price>, Quantity: <quantity>"
+        """
+
         print(f"{self.product_name}, Price: ${self.product_price}, Quantity: {self.quantity_of_product}")
 
 
     def buy(self, quantity):
+        """
+        Buys a given quantity of this product.
+        Reduces the stock quantity accordingly and deactivates the
+        product if the quantity drops to 0.
+        Args: quantity (int): The quantity to buy. Must be a positive integer.
+
+        Returns: The total price of the purchase (price * quantity).
+
+        Raises:
+        TypeError: If quantity is not an integer.
+        ValueError: If quantity <= 0 or there is not enough stock available.
+        Exception: If the product is inactive (sold out).
+        """
 
         if not isinstance(quantity, int):
             raise TypeError("Quantity must be an integer")
@@ -57,20 +106,4 @@ class Product:
         if self.get_quantity() == 0:
             self.deactivate()
         return self.product_price * quantity
-
-# bose = Product("Bose QuietComfort Earbuds", 250, 500)
-# mac = Product("MacBook Air M2", 1450, 100)
-#
-# print(bose.buy("h"))
-# print(mac.buy(100))
-# print(mac.is_active())
-
-# bose.show()
-# mac.show()
-# print(bose.buy())
-# bose.set_quantity(1)
-#
-# bose.show()
-# print(bose.buy(-1))
-# bose.show()
 
